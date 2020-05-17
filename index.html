@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geo location</title>
+  </head>
+  <body>
+    <button id="find-me">Show my location</button><br />
+    <p id="status"></p>
+    <a id="map" target="_blank" rel="noopener noreferrer">map</a>
+    <script>
+      function geoFindMe() {
+        const status = document.querySelector("#status");
+        const map = document.querySelector("#map");
+
+        function success(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          
+          console.log( position.coords);
+          map.href = 'https://www.google.lk/maps/@' + position.coords.latitude + ',' + position.coords.longitude + ',21z';
+        }
+
+        function error() {
+          status.textContent = "Unable to retrieve your location";
+        }
+
+        if (!navigator.geolocation) {
+          status.textContent = "Geolocation is not supported by your browser";
+        } else {
+          status.textContent = "Locating…";
+          navigator.geolocation.getCurrentPosition(success, error);
+        }
+      }
+
+      document.querySelector("#find-me").addEventListener("click", geoFindMe);
+    </script>
+  </body>
+</html>
